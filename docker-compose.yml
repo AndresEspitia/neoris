@@ -1,0 +1,25 @@
+version: '2.17.3'
+
+services:
+  neoris-app-sql:
+    image: neoris-app
+    ports:
+      - '8090:8090'
+    networks:
+      - neoris-mysql
+    depends_on:
+      - neorissqldb
+
+  neorissqldb:
+    image: mysql:8
+    restart: always
+    networks:
+      - neoris-mysql
+    environment:
+      - MYSQL_DATABASE=neoris
+      - MYSQL_ROOT_PASSWORD=12345
+    volumes:
+        - ./BaseDatos.sql:/docker-entrypoint-initdb.d/BaseDatos.sql
+networks:
+  neoris-mysql:
+
